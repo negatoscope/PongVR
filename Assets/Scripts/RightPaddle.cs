@@ -1,17 +1,10 @@
 ﻿//
-// VRPong
+// PongVR
 // ******
 // 
-// Created by Kevin Thomas 01/04/20.
-// Modified by Kevin Thomas 01/06/20.
-//
-// Apache License, Version 2.0
+// Created by Luis Eudave 10/07/21.
 // 
-// VRPong is a Oculus Rift and Oculus Quest game that is a 
-// classic Pong clone where have two paddles to which
-// your left controller handles the left paddle and the
-// right controller to hanldle the right paddle.  Tons
-// of retro fun in this game!
+// Based on VRPong by Kevin Thomas
 //
 
 
@@ -23,15 +16,10 @@ using UnityEngine;
 public class RightPaddle : MonoBehaviour
 {
     public int score;
-    public float speedRPaddle = 5;
+    public float speed = 10;
     public bool isAI;
 
     private Ball ball;
-
-    private Vector3 forwardDirection;
-
-    public enum Side { Left, Right }
-    [SerializeField] private Side side;
 
     Rigidbody rb;
 
@@ -45,11 +33,6 @@ public class RightPaddle : MonoBehaviour
         // or functionality
         rb = GetComponent<Rigidbody>();
         ball = GameObject.FindGameObjectWithTag("Ball").GetComponent<Ball>();
-
-        if (side == Side.Left)
-            forwardDirection = Vector3.back;
-        else if (side == Side.Right)
-            forwardDirection = Vector3.forward;
     }
 
     private void Update()
@@ -70,53 +53,21 @@ public class RightPaddle : MonoBehaviour
         xPosition = Mathf.Clamp(xPosition, minX, maxX);
     }
 
-
-    // Update is called frame rate independently
-    //void FixedUpdate()
-    //{
-    //    // If we press left we are moving the left paddle
-    //    // on the x axis and we add force to our object
-    //    // with Vector3 and to move left we move negative
-    //    // 'speed' meters per second on the x axis and the
-    //    // reverse for right
-    //    if (OVRInput.Get(OVRInput.Button.Two))
-    //    {
-    //        rb.MovePosition
-    //        (
-    //            transform.position + Vector3.right * -speed * Time.deltaTime
-    //        );
-    //    }
-    //    else if (OVRInput.Get(OVRInput.Button.One))
-    //    {
-    //        rb.MovePosition
-    //        (
-    //            transform.position + Vector3.right * speed * Time.deltaTime
-    //        );
-    //    }
-    //}
-
     private float GetNewXPosition()
     {
         float result = transform.position.x;
 
         if (isAI)
         {
-            //if(BallIncoming())
             if (ball.transform.position.z > 0)
-                result = Mathf.MoveTowards(transform.position.x, ball.transform.position.x, speedRPaddle * Time.deltaTime);
+                result = Mathf.MoveTowards(transform.position.x, ball.transform.position.x, speed * Time.deltaTime);
         }
         else
         {
-            float movement = Input.GetAxisRaw("Vertical") * speedRPaddle * Time.deltaTime;
+            float movement = Input.GetAxisRaw("Vertical") * speed * Time.deltaTime;
             result = transform.position.x + movement;
         }
 
         return result;
     }
-
-    //private bool BallIncoming()
-    //{
-    //    float dotP = Vector3.Dot(ball.velocity, forwardDirection);
-    //    return dotP < 0f;
-    //}
 }

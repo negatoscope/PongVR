@@ -1,17 +1,10 @@
 ﻿//
-// VRPong
+// PongVR
 // ******
 // 
-// Created by Kevin Thomas 01/04/20.
-// Modified by Kevin Thomas 01/06/20.
-//
-// Apache License, Version 2.0
+// Created by Luis Eudave 10/07/21.
 // 
-// VRPong is a Oculus Rift and Oculus Quest game that is a 
-// classic Pong clone where have two paddles to which
-// your left controller handles the left paddle and the
-// right controller to hanldle the right paddle.  Tons
-// of retro fun in this game!
+// Based on VRPong by Kevin Thomas
 //
 
 

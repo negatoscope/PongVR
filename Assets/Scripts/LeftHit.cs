@@ -1,17 +1,10 @@
 ﻿//
-// VRPong
+// PongVR
 // ******
 // 
-// Created by Kevin Thomas 01/04/20.
-// Modified by Kevin Thomas 01/06/20.
-//
-// Apache License, Version 2.0
+// Created by Luis Eudave 10/07/21.
 // 
-// VRPong is a Oculus Rift and Oculus Quest game that is a 
-// classic Pong clone where have two paddles to which
-// your left controller handles the left paddle and the
-// right controller to hanldle the right paddle.  Tons
-// of retro fun in this game!
+// Based on VRPong by Kevin Thomas
 //
 
 
@@ -48,6 +41,8 @@ public class LeftHit : MonoBehaviour
         // call the ball to origin wherever the
         // ball is located
         GameObject.Find("Ball").GetComponent<Ball>().ReturnToOrigin();
+
+        // Randomize elements color each time a point is scored
         GameObject.Find("Floor").GetComponent<Renderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         GameObject.Find("TopWall").GetComponent<Renderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         GameObject.Find("BottomWall").GetComponent<Renderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);

@@ -1,17 +1,10 @@
 ﻿//
-// VRPong
+// PongVR
 // ******
 // 
-// Created by Kevin Thomas 01/04/20.
-// Modified by Kevin Thomas 01/06/20.
-//
-// Apache License, Version 2.0
+// Created by Luis Eudave 10/07/21.
 // 
-// VRPong is a Oculus Rift and Oculus Quest game that is a 
-// classic Pong clone where have two paddles to which
-// your left controller handles the left paddle and the
-// right controller to hanldle the right paddle.  Tons
-// of retro fun in this game!
+// Based on VRPong by Kevin Thomas
 //
 
 
@@ -23,11 +16,7 @@ using UnityEngine;
 public class LeftPaddle : MonoBehaviour
 {
     public int score;
-    public float speedLPaddle = 5;
-    private Vector3 forwardDirection;
-
-    public enum Side { Left, Right }
-    [SerializeField] private Side side;
+    public float speed = 10;
 
     Rigidbody rb;
 
@@ -54,14 +43,14 @@ public class LeftPaddle : MonoBehaviour
         {
             rb.MovePosition
             (
-                transform.position + Vector3.right * -speedLPaddle * Time.deltaTime
+                transform.position + Vector3.right * -speed * Time.deltaTime
             );
         }
         else if(OVRInput.Get(OVRInput.RawButton.X) || Input.GetKey("down"))
         {
             rb.MovePosition
             (
-                transform.position + Vector3.right * speedLPaddle * Time.deltaTime
+                transform.position + Vector3.right * speed * Time.deltaTime
             );
         }
     }

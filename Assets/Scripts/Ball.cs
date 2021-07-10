@@ -1,17 +1,10 @@
 ﻿//
-// VRPong
+// PongVR
 // ******
 // 
-// Created by Kevin Thomas 01/04/20.
-// Modified by Kevin Thomas 01/06/20.
-//
-// Apache License, Version 2.0
+// Created by Luis Eudave 10/07/21.
 // 
-// VRPong is a Oculus Rift and Oculus Quest game that is a 
-// classic Pong clone where have two paddles to which
-// your left controller handles the left paddle and the
-// right controller to hanldle the right paddle.  Tons
-// of retro fun in this game!
+// Based on VRPong by Kevin Thomas
 //
 
 
@@ -24,13 +17,10 @@ using UnityEngine.SceneManagement;
 public class Ball : MonoBehaviour
 {
     public Rigidbody rb;
-    Collider p_collider;
-    //public float speedBall = 5;
-    public Vector3 velocity;
+
     public float moveSpeed;
     private float originalSpeed;
-    public float bounceStrength;
-    [SerializeField] private float maxBounceAngle = 45f;
+
     public LeftPaddle leftPaddle;
     public RightPaddle rightPaddle;
     public TextMesh scoreText;
@@ -61,35 +51,17 @@ public class Ball : MonoBehaviour
         scoreSound = sounds[2];
         winGameSound = sounds[3];
 
-
+        // Save original speed value for future use
         originalSpeed = moveSpeed;
 
         // Call origin function
         ReturnToOrigin();
-        //AddStartingForce();
-        //StartCoroutine(ResetPosition());
-        //ResetPosition();
-
-        //velocity = Vector3.forward * moveSpeed;
     }
 
     // Update is called once per frame
     private void FixedUpdate()
     {
-        print(rb.velocity);
-        //if (leftPaddle.score >= 3)
-        //{
-        //    rb.velocity = Vector3.zero;
-        //}
-        //else if (rightPaddle.score >= 3)
-        //{
-        //    rb.velocity = Vector3.zero;
-        //}
-        //else
-        //{
-        //    rb.velocity = velocity;
-        //}
-        //rb.velocity = velocity;
+        print(rb.velocity); // used to monitor ball behavior
     }
 
     //Check to see if we hit our walls or paddle
@@ -100,10 +72,6 @@ public class Ball : MonoBehaviour
         {
             // We play our sound effect
             hitWallSound.Play();
-
-            // And bounce normally
-            //Bounce();
-            //velocity.x = -velocity.x;
         }
 
         // If we hit the paddles
@@ -112,8 +80,7 @@ public class Ball : MonoBehaviour
             // We play our sound effect
             hitPaddleSound.Play();
 
-            // And bounce normally
-            //BounceFromPaddle(collision.collider);
+            // Increment speed each time ball hits paddle
             moveSpeed = this.moveSpeed + moveSpeed / 25;
 
         }
@@ -127,8 +94,6 @@ public class Ball : MonoBehaviour
         {
             // We play our sound effect
             scoreSound.Play();
-            //StartCoroutine(ResetPosition());
-            //ReturnToOrigin();
         }
     }
 
@@ -143,7 +108,7 @@ public class Ball : MonoBehaviour
         // true
         if (leftPaddle.score >= 3)
         {
-            scoreText.text = "Left Player Won!";
+            scoreText.text = "You Win!";
 
             // We play our sound effect
             winGameSound.Play();
@@ -153,7 +118,7 @@ public class Ball : MonoBehaviour
         }
         else if(rightPaddle.score >= 3)
         {
-            scoreText.text = "Right Player Won!";
+            scoreText.text = "CPU Wins!";
 
             // We play our sound effect
             winGameSound.Play();
@@ -205,15 +170,13 @@ public class Ball : MonoBehaviour
         // Disable countdown text
         scoreText.text = "";
 
+        // Restitute original speed value
+        moveSpeed = originalSpeed;
+
         // We want to ensure x and z axis get a random
         // value upon each new score when the ball
         // returns to origin. Multiplier adds speed.
-        moveSpeed = originalSpeed;
         rb.velocity = new Vector3(velocityX * moveSpeed, 0, velocityZ * moveSpeed);
-        //rb.velocity = new Vector3(velocityX, 0, velocityZ);
-        //rb.velocity = Vector3.forward * moveSpeed;
-        //velocity = rb.velocity;
-        //yield return velocity;
 
         // Yield back co-routine
         yield return null;
@@ -241,102 +204,8 @@ public class Ball : MonoBehaviour
         );
     }
 
-    public void Bounce()
-    {
-        //velocity = -velocity;
-        velocity.x = -velocity.x;
-    }
-
-    public void BounceFromPaddle(Collider collider)
-    {
-        float colXExtent = collider.bounds.extents.x;
-        float xOffset = transform.position.x - collider.transform.position.x;
-        float xRatio = xOffset / colXExtent;
-        float bounceAngle = maxBounceAngle * xRatio * Mathf.Deg2Rad;
-
-        Vector3 bounceDirection = new Vector3(Mathf.Sin(bounceAngle), 0, Mathf.Cos(bounceAngle));
-
-        bounceDirection.z *= Mathf.Sign(-velocity.z);
-
-        velocity = bounceDirection * this.moveSpeed * 6; // when the ball hits the paddle velocity goes down 6x, dont know why
-        print(velocity);
-    }
-
     public void AddForce(Vector3 force)
     {
         rb.AddForce(force);
     }
-
-    IEnumerator ResetPosition()
-    {
-        if (leftPaddle.score >= 3)
-        {
-            scoreText.text = "Left Player Won!";
-
-            // We play our sound effect
-            winGameSound.Play();
-
-            // Start the restart co-routine
-            StartCoroutine(Restart());
-        }
-        else if (rightPaddle.score >= 3)
-        {
-            scoreText.text = "Right Player Won!";
-
-            // We play our sound effect
-            winGameSound.Play();
-
-            // Start the restart co-routine
-            StartCoroutine(Restart());
-        }
-        else
-        {
-
-            // Start the countdown co-routine
-            //rb.position = Vector3.zero;
-            rb.velocity = Vector3.zero;
-
-            // Init countown to reorient players and restart game
-            // as this is async as we pause execution and on the
-            // next frame re-init as this will happen for three
-            // seconds
-            for (int i = 3; i > 0; i--)
-            {
-                scoreText.text = "GET READY".ToString();
-
-                yield return new WaitForSeconds(2);
-            }
-
-            // Disable countdown text
-            scoreText.text = "";
-
-            AddStartingForce();
-        }
-
-
-    }
-
-    public void AddStartingForce()
-    {
-        int velocityX
-            = Random.Range(1, 3) == 1
-            ? Random.Range(-4, -7)
-            : Random.Range(4, 7);
-
-        int velocityZ
-            = Random.Range(1, 3) == 1
-            ? Random.Range(-4, -7)
-            : Random.Range(4, 7);
-
-        Vector3 direction = new Vector3(velocityX, 0, velocityZ);
-        //yield return new WaitForSeconds(7);
-
-        //rb.velocity = new Vector3(0, 0, 0);
-        //velocity = new Vector3(velocityX * moveSpeed, 0, velocityZ * moveSpeed);
-        velocity = direction * this.moveSpeed;
-        //rb.AddForce(direction * this.moveSpeed);
-        //print(direction);
-    }
-
-
 }
