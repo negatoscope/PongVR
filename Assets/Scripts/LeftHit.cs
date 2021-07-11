@@ -15,11 +15,31 @@ using UnityEngine;
 public class LeftHit : MonoBehaviour
 {
     public RightPaddle RightScore;
+    private List<Vector3> positions;
+    private List<Vector3> rotations;
+    private int cameraNumber;
+    private Quaternion currentRotation;
 
     // Start is called before the first frame update
     void Start()
     {
+        // list of positions and rotations
+        positions = new List<Vector3>(); // create new empty list
+        rotations = new List<Vector3>(); // create new empty list
 
+        // camera positions and rotations
+        positions.Add(new Vector3(0f, 9f, 0f)); // p_centerUp
+        positions.Add(new Vector3(6f, 9f, 0f)); // p_centerDown
+        positions.Add(new Vector3(0f, 9f, -12f)); // p_playerUp
+        positions.Add(new Vector3(0f, 3f, -10.5f)); // p_playerPaddle
+        positions.Add(new Vector3(0f, 9f, 10.5f)); // p_aiUp
+        positions.Add(new Vector3(0f, 3f, 12f)); // p_aiPaddle
+        rotations.Add(new Vector3(90f, -90f, 0f)); // r_centerUp
+        rotations.Add(new Vector3(45f, -90f, 0f)); // r_centerDown
+        rotations.Add(new Vector3(45f, 0f, 0f)); // r_playerUp
+        rotations.Add(new Vector3(45f, 0f, 0f)); // r_playerPaddle
+        rotations.Add(new Vector3(45f, 180f, 0f)); // r_aiUp
+        rotations.Add(new Vector3(45f, 180f, 0f)); // r_aiPaddle
     }
 
     // Update is called once per frame
@@ -41,6 +61,12 @@ public class LeftHit : MonoBehaviour
         // call the ball to origin wherever the
         // ball is located
         GameObject.Find("Ball").GetComponent<Ball>().ReturnToOrigin();
+
+        // Randomize camera transform
+        cameraNumber = Random.Range(0, 5);
+        currentRotation.eulerAngles = new Vector3(rotations[cameraNumber].x, rotations[cameraNumber].y, rotations[cameraNumber].z);
+        GameObject.Find("Player").GetComponent<Transform>().position = new Vector3(positions[cameraNumber].x, positions[cameraNumber].y, positions[cameraNumber].z);
+        GameObject.Find("Player").GetComponent<Transform>().rotation = currentRotation;
 
         // Randomize elements color each time a point is scored
         GameObject.Find("CenterEyeAnchor").GetComponent<Camera>().backgroundColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);

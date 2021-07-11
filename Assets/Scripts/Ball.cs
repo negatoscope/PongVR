@@ -188,7 +188,6 @@ public class Ball : MonoBehaviour
         // Stop the ball
         rb.velocity = new Vector3(0, 0, 0);
         
-
         // Place ball at origin
         transform.position = new Vector3(0, 0.5f, 0);
 
@@ -201,7 +200,7 @@ public class Ball : MonoBehaviour
         SceneManager.LoadScene
         (
             SceneManager.GetActiveScene().name
-        );
+        );       
     }
 
     public void AddForce(Vector3 force)
