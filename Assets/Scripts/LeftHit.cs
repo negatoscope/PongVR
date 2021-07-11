@@ -43,6 +43,7 @@ public class LeftHit : MonoBehaviour
         GameObject.Find("Ball").GetComponent<Ball>().ReturnToOrigin();
 
         // Randomize elements color each time a point is scored
+        GameObject.Find("CenterEyeAnchor").GetComponent<Camera>().backgroundColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         GameObject.Find("Floor").GetComponent<Renderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         GameObject.Find("TopWall").GetComponent<Renderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         GameObject.Find("BottomWall").GetComponent<Renderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
