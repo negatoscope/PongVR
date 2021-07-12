@@ -495,7 +495,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   score: 0
-  speed: 10
+  speed: 20
   isAI: 1
 --- !u!54 &627033930
 Rigidbody:
@@ -1773,6 +1773,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   moveSpeed: 2
+  goalEffect: {fileID: 5408260885522254991, guid: 09821268fb9ddef498056de2f8993f43,
+    type: 3}
   leftPaddle: {fileID: 907807502}
   rightPaddle: {fileID: 627033929}
   scoreText: {fileID: 822214762}

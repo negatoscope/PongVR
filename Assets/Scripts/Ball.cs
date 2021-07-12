@@ -21,6 +21,8 @@ public class Ball : MonoBehaviour
     public float moveSpeed;
     private float originalSpeed;
 
+    public GameObject goalEffect;
+
     public LeftPaddle leftPaddle;
     public RightPaddle rightPaddle;
     public TextMesh scoreText;
@@ -72,6 +74,8 @@ public class Ball : MonoBehaviour
         {
             // We play our sound effect
             hitWallSound.Play();
+            Instantiate(goalEffect, this.transform.position, Quaternion.identity);
+
         }
 
         // If we hit the paddles
@@ -79,6 +83,8 @@ public class Ball : MonoBehaviour
         {
             // We play our sound effect
             hitPaddleSound.Play();
+            Instantiate(goalEffect, this.transform.position, Quaternion.identity);
+
 
             // Increment speed each time ball hits paddle
             moveSpeed = this.moveSpeed + moveSpeed / 25;
@@ -136,6 +142,9 @@ public class Ball : MonoBehaviour
     // Create countdown co-routine
     public IEnumerator Countdown()
     {
+        // Shockwave after goal
+        Instantiate(goalEffect, this.transform.position, Quaternion.identity);
+
         // We compare one to two which is 50 percent then that
         // initial outcome depending on the value will either be
         // negative four to negative seven or it will be between

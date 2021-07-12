@@ -15,6 +15,7 @@ using UnityEngine;
 public class RightHit : MonoBehaviour
 {
     public LeftPaddle LeftScore;
+
     private List<Vector3> positions;
     private List<Vector3> rotations;
     private int cameraNumber;

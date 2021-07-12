@@ -15,6 +15,7 @@ using UnityEngine;
 public class LeftHit : MonoBehaviour
 {
     public RightPaddle RightScore;
+
     private List<Vector3> positions;
     private List<Vector3> rotations;
     private int cameraNumber;
@@ -77,5 +78,7 @@ public class LeftHit : MonoBehaviour
         GameObject.Find("RightGoal").GetComponent<Renderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         GameObject.Find("LeftPaddle").GetComponent<Renderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         GameObject.Find("RightPaddle").GetComponent<Renderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+
+
     }
 }

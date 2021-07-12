@@ -464,6 +464,7 @@
 "Assets/Scripts/Ball.cs"
 "Assets/Scripts/BounceDirection.cs"
 "Assets/Scripts/BouncySurface.cs"
+"Assets/Scripts/Destroy.cs"
 "Assets/Scripts/GameController.cs"
 "Assets/Scripts/LeftHit.cs"
 "Assets/Scripts/LeftPaddle.cs"
