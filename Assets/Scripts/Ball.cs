@@ -19,6 +19,7 @@ public class Ball : MonoBehaviour
     public Rigidbody rb;
 
     public float moveSpeed;
+    public float speedMultiplier;
     private float originalSpeed;
 
     public GameObject goalEffect;
@@ -38,7 +39,6 @@ public class Ball : MonoBehaviour
         // rb variable as it is private as we do not want
         // other scripts to have access to its properties
         // or functionality
-
         rb = GetComponent<Rigidbody>();
     }
 
@@ -63,6 +63,7 @@ public class Ball : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {
+        //CSVManager.AppendToReport(WriteData());
         print(rb.velocity); // used to monitor ball behavior
     }
 
@@ -74,6 +75,8 @@ public class Ball : MonoBehaviour
         {
             // We play our sound effect
             hitWallSound.Play();
+
+            // Create shockwave when hit
             Instantiate(goalEffect, this.transform.position, Quaternion.identity);
 
         }
@@ -81,13 +84,31 @@ public class Ball : MonoBehaviour
         // If we hit the paddles
         if (collision.collider.tag == "Paddles")
         {
+            // Write paddle position, ball-paddle collision position and time
+            CSVManager.AppendToReport(new string[] {"HIT",
+                                                    Time.realtimeSinceStartup.ToString(),
+                                                    rb.velocity.z.ToString(),
+                                                    this.transform.position.x.ToString(), 
+                                                    leftPaddle.GetComponent<BounceDirection>().GetxRatio().ToString(),
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    ""
+                                                    });
+            
             // We play our sound effect
             hitPaddleSound.Play();
+
+            // Create shockwave when hit
             Instantiate(goalEffect, this.transform.position, Quaternion.identity);
 
-
-            // Increment speed each time ball hits paddle
-            moveSpeed = this.moveSpeed + moveSpeed / 25;
+            // % Increment over base speed each time ball hits paddle
+            moveSpeed = this.moveSpeed + (moveSpeed * speedMultiplier/100);
 
         }
     }
@@ -100,6 +121,47 @@ public class Ball : MonoBehaviour
         {
             // We play our sound effect
             scoreSound.Play();
+
+            if (other.name == "LeftGoal")
+            {
+                // Write goal
+                CSVManager.AppendToReport(new string[] {"GOAL RECEIVED",
+                                                    Time.realtimeSinceStartup.ToString(),
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    GameObject.Find("LeftGoal").GetComponent<LeftHit>().GetCameraNumber().ToString(),
+                                                    "",
+                                                    "1",
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    ""
+                                                    });
+            }
+            else
+            {
+                // Write goal scored
+                CSVManager.AppendToReport(new string[] {"GOAL SCORED",
+                                                    Time.realtimeSinceStartup.ToString(),
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    GameObject.Find("RightGoal").GetComponent<RightHit>().GetCameraNumber().ToString(),
+                                                    "1",
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    ""
+                                                    });
+            }
+            
+
         }
     }
 
@@ -114,7 +176,7 @@ public class Ball : MonoBehaviour
         // true
         if (leftPaddle.score >= 3)
         {
-            scoreText.text = "You Win!";
+            scoreText.text = "You WIN!";
 
             // We play our sound effect
             winGameSound.Play();
@@ -124,7 +186,7 @@ public class Ball : MonoBehaviour
         }
         else if(rightPaddle.score >= 3)
         {
-            scoreText.text = "CPU Wins!";
+            scoreText.text = "You LOSE!";
 
             // We play our sound effect
             winGameSound.Play();
@@ -144,6 +206,7 @@ public class Ball : MonoBehaviour
     {
         // Shockwave after goal
         Instantiate(goalEffect, this.transform.position, Quaternion.identity);
+
 
         // We compare one to two which is 50 percent then that
         // initial outcome depending on the value will either be
@@ -187,6 +250,23 @@ public class Ball : MonoBehaviour
         // returns to origin. Multiplier adds speed.
         rb.velocity = new Vector3(velocityX * moveSpeed, 0, velocityZ * moveSpeed);
 
+        // Write episode start
+        CSVManager.AppendToReport(new string[] {"EPISODE START",
+                                                    Time.realtimeSinceStartup.ToString(),
+                                                    rb.velocity.z.ToString(),
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    ""
+                                                    });
+
         // Yield back co-routine
         yield return null;
     }
@@ -204,6 +284,23 @@ public class Ball : MonoBehaviour
 
         // Yield back co-routine
         yield return null;
+
+        // Write finished game
+        CSVManager.AppendToReport(new string[] {"FINISHED GAME",
+                                                    Time.realtimeSinceStartup.ToString(),
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    "",
+                                                    leftPaddle.score.ToString(),
+                                                    rightPaddle.score.ToString(),
+                                                    originalSpeed.ToString(),
+                                                    speedMultiplier.ToString(),
+                                                    leftPaddle.speed.ToString(),
+                                                    rightPaddle.speed.ToString(),
+                                                    leftPaddle.GetComponent<BounceDirection>().maxBounceAngle.ToString(),
+                                                    rightPaddle.GetComponent<BounceDirection>().maxBounceAngle.ToString()
+                                                    });
 
         // Reload game scene
         SceneManager.LoadScene

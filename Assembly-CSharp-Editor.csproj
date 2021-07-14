@@ -62,6 +62,7 @@
     <Compile Include="Assets\Oculus\AudioManager\Scripts\Audio\Editor\AudioImportPostProcessor.cs" />
     <Compile Include="Assets\Oculus\SampleFramework\Core\Gradle\Editor\Utils.cs" />
     <Compile Include="Assets\Oculus\SampleFramework\Usage\OVROverlayCanvas\Editor\OVROverlayCanvasEditor.cs" />
+    <Compile Include="Assets\Scripts\Editor\MyTools.cs" />
     <Compile Include="Assets\Oculus\SampleFramework\Editor\OculusSampleFrameworkUtil.cs" />
     <Compile Include="Assets\Oculus\SampleFramework\Editor\BuildAssetPackages.cs" />
     <Compile Include="Assets\Oculus\AudioManager\Scripts\Utils\Editor\DrawerInspectorNote.cs" />

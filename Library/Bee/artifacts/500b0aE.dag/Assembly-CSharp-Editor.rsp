@@ -351,6 +351,7 @@
 "Assets/Oculus/Spatializer/editor/ONSPPropagationMaterialEditor.cs"
 "Assets/Oculus/Spatializer/editor/ONSPPropagationSerializationManager.cs"
 "Assets/Oculus/Spatializer/editor/ONSPReflectionCustomGUI.cs"
+"Assets/Scripts/Editor/MyTools.cs"
 -langversion:8.0
 
 /deterministic

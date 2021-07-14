@@ -81,4 +81,9 @@ public class LeftHit : MonoBehaviour
 
 
     }
+
+    public float GetCameraNumber()
+    {
+        return cameraNumber;
+    }
 }

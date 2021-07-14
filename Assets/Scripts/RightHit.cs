@@ -79,4 +79,9 @@ public class RightHit : MonoBehaviour
         GameObject.Find("LeftPaddle").GetComponent<Renderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         GameObject.Find("RightPaddle").GetComponent<Renderer>().material.color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
     }
+
+    public float GetCameraNumber()
+    {
+        return cameraNumber;
+    }
 }

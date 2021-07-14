@@ -470,6 +470,7 @@
 "Assets/Scripts/LeftPaddle.cs"
 "Assets/Scripts/RightHit.cs"
 "Assets/Scripts/RightPaddle.cs"
+"Assets/Scripts/Static/CSVManager.cs"
 -langversion:8.0
 
 /deterministic

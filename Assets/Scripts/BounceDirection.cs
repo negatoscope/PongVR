@@ -15,6 +15,7 @@ using UnityEngine;
 public class BounceDirection : MonoBehaviour
 {
     public float maxBounceAngle = 45;
+    private float xRatio;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -26,7 +27,7 @@ public class BounceDirection : MonoBehaviour
             // Calculate bounce angle depending on where ball hits the paddle 
             float colXExtent = collider.bounds.extents.x; 
             float xOffset = ball.transform.position.x - collider.transform.position.x;
-            float xRatio = xOffset / colXExtent;
+            xRatio = xOffset / colXExtent;
             float bounceAngle = maxBounceAngle * xRatio * Mathf.Deg2Rad;
 
             Vector3 bounceDirection = new Vector3(Mathf.Sin(bounceAngle), 0, Mathf.Cos(bounceAngle));
@@ -35,5 +36,11 @@ public class BounceDirection : MonoBehaviour
             // Add new direction to rb.velocity
             ball.rb.velocity = bounceDirection * ball.moveSpeed * 7; // when the ball hits the paddle velocity goes down 7x, dont know why
         }
+        
+    }
+
+    public float GetxRatio()
+    {
+        return xRatio;
     }
 }
